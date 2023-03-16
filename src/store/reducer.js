@@ -1,2 +1,3 @@
 import { combineReducers } from "redux";
-export const rootReducer = combineReducers({ });
+import { logInReducer } from "../pages/Jira-Admin/authPages/duck/reducer.";
+export const rootReducer = combineReducers({ logInReducer });

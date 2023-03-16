@@ -6,5 +6,4 @@ const store = createStore(
   rootReducer,
   comoseEnhencers(applyMiddleware(thunk))
 );
-
 export default store;

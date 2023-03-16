@@ -1,11 +1,16 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
 *{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
 };
 body,html{
   overflow-x: hidden;
+  font-size: 18px;
 };
 a{
     text-decoration: none;
 };
+
+
