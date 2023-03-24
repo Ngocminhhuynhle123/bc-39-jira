@@ -1,4 +1,4 @@
-import { logInRequert, logInSuccess, logInFaile } from "./types";
+import { logInRequert, logInSuccess, logInFaile, logIn, logOut } from "./types";
 import { api } from 'utils/apiUtils';
 const actlogInRequert = () => ({ type: logInRequert })
 const actlogInSuccess = (data) => {
@@ -13,7 +13,7 @@ const actlogInFaile = (error) => {
         payload: error
     }
 }
-export const fetDataLogInReducer = (user,navigate) => {
+export const fetDataLogInReducer = (user, navigate) => {
     return (dispatch) => {
         dispatch(actlogInRequert())
         api.post('api/Users/signin', user)

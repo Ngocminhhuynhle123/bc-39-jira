@@ -7,7 +7,7 @@ api.interceptors.request.use((config) => {
     config.headers = {
         ...config.headers,
         TokenCybersoft: Token_Cybersoft,
-        Authorization: localStorage.getItem("@user") ? `Bearer ${JSON.parse(localStorage.getItem("Useradming")).accessToken}` : "",
+        Authorization: localStorage.getItem("@user") ? `Bearer ${JSON.parse(localStorage.getItem("@user")).accessToken}` : "",
 
     }
     return config

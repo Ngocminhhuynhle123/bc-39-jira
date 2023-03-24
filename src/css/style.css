@@ -82,4 +82,29 @@ a {
 #logIn .form .message a {
   color: #4CAF50;
   text-decoration: none;
+}
+
+#layout .anticon[tabindex] {
+  font-size: 1.3rem;
+}
+#layout .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+#layout .header .user {
+  margin-right: 2%;
+  font-size: 1rem;
+  border-radius: 3rem;
+}
+#layout .header .user img {
+  width: 1.5rem;
+  border-radius: 50%;
+}
+
+.btnLogOut {
+  color: red;
+}
+.btnLogOut:hover {
+  color: rgba(255, 0, 0, 0.5490196078);
 }/*# sourceMappingURL=style.css.map */
