@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Form, Button, Input, Modal, Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { actFetchDataListUser } from "./duck/action/action-listUser";
-import { FetchAddUser } from "./duck/action/action-createUser";
 import {
   EditOutlined,
   DeleteOutlined,
@@ -11,7 +10,7 @@ import {
 import Loading from "_components/loading";
 import { FetchDeleteUser } from "./duck/action/action-deleteUser";
 import { FetchEditUser } from "./duck/action/action-editUser";
-import FormUser from "./FormUser";
+import { FetchAddUser } from "./duck/action/action-createUser";
 
 export default function UserManagement() {
   const dispatch = useDispatch();
@@ -53,7 +52,7 @@ export default function UserManagement() {
             data-target="#User"
             style={{ size: 8 }}
             onClick={() => {
-              handleEditUser(record);
+              handleEditUser();
             }}
           >
             <EditOutlined />
@@ -75,7 +74,7 @@ export default function UserManagement() {
 
   useEffect(() => {
     dispatch(actFetchDataListUser());
-  }, []);
+  }, [dispatch]);
 
   const handleDeleteUser = (userId) => {
     Modal.confirm({
@@ -194,7 +193,6 @@ export default function UserManagement() {
                     maxWidth: 600,
                   }}
                   className={"mt-3"}
-                  valu
                 >
                   <Form.Item name="id" label="ID" hidden={!isEditForm}>
                     <Input

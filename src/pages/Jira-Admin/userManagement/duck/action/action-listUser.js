@@ -8,9 +8,11 @@ export const actFetchDataListUser = () => {
     api
       .get("api/Users/getUser")
       .then((res) => {
+        console.log(res);
         dispatch(actListUserSuccess(res.data.content));
       })
       .catch((error) => {
+        console.log(error);
         dispatch(actListUserFail(error));
       });
   };
