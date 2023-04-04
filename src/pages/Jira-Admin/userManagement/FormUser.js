@@ -5,7 +5,8 @@
 // import { FetchAddUser } from "./duck/action/action-createUser";
 // import { actFetchDataListUser } from "./duck/action/action-listUser";
 
-// export default function FormUser(props) {
+// export default function FormUser(user) {
+//   console.log(user);
 //   const dispatch = useDispatch();
 //   const [form] = Form.useForm();
 
@@ -26,35 +27,37 @@
 //     },
 //   };
 
+//   console.log(user);
+
 //   const [titleForm, setTitleForm] = useState("Sign up");
 //   const [isEditForm, setisEditForm] = useState(false);
 //   const [editingUser, setEditingUser] = useState(null);
-//   const handleEditUser = async (record) => {
-//     setTitleForm("Edit User");
-//     setisEditForm(true);
-//     console.log(isEditForm);
-//     console.log("dữ liệu vào", record);
-//     setEditingUser((record) => ({ ...record }));
+//   //   const handleEditUser = async (record) => {
+//   //     setTitleForm("Edit User");
+//   //     setisEditForm(true);
+//   //     console.log(isEditForm);
+//   //     console.log("dữ liệu vào", record);
+//   //     setEditingUser((record) => ({ ...record }));
 
-//     console.log("sau khi spread", editingUser);
-//   };
-//   const onFinish = (user) => {
-//     console.log(user);
-//     if (isEditForm) {
-//       console.log("editForm", isEditForm);
-//       // FetchEdit
-//       // dispatch(FetchEditUser(user));
-//     } else {
-//       // Fetch Add
-//       console.log("adduserlog", isEditForm);
-//       //tạm thời cancel
-//       // dispatch(FetchAddUser(user));
-//     }
-//   };
+//   //     console.log("sau khi spread", editingUser);
+//   //   };
+//   //   const onFinish = (user) => {
+//   //     console.log(user);
+//   //     if (isEditForm) {
+//   //       console.log("editForm", isEditForm);
+//   //       // FetchEdit
+//   //       // dispatch(FetchEditUser(user));
+//   //     } else {
+//   //       // Fetch Add
+//   //       console.log("adduserlog", isEditForm);
+//   //       //tạm thời cancel
+//   //       // dispatch(FetchAddUser(user));
+//   //     }
+//   //   };
 
-//   const onReset = () => {
-//     form.resetFields();
-//   };
+//   //   const onReset = () => {
+//   //     form.resetFields();
+//   //   };
 
 //   return (
 //     <div className="modal-dialog" role="document">
@@ -75,7 +78,7 @@
 //             {...layout}
 //             form={form}
 //             name="control-hooks"
-//             onFinish={onFinish}
+//             // onFinish={onFinish}
 //             style={{
 //               maxWidth: 600,
 //             }}
@@ -171,7 +174,10 @@
 //               <Button type="primary" htmlType="submit" className="mx-2">
 //                 Submit
 //               </Button>
-//               <Button htmlType="button" onClick={onReset}>
+//               <Button
+//                 htmlType="button"
+//                 //   onClick={onReset}
+//               >
 //                 Reset
 //               </Button>
 //             </Form.Item>
@@ -181,3 +187,123 @@
 //     </div>
 //   );
 // }
+
+// Form-cut
+{
+  /* <Form
+                  {...layout}
+                  form={form}
+                  name="control-hooks"
+                  onFinish={onFinish}
+                  // onSubmit={onFinish}
+                  style={{
+                    maxWidth: 600,
+                  }}
+                  className={"mt-3"}
+                >
+                  <Form.Item
+                    name="id"
+                    label="ID"
+                    hidden={!isEditForm}
+                    value={inputUser.id}
+                  >
+                    <Input disabled value={formikProps.id} />
+                  </Form.Item>
+                  <Form.Item
+                    name="email"
+                    label="Email"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please enter email",
+                      },
+                      {
+                        type: "email",
+                        message: "Please enter a valid email",
+                      },
+                    ]}
+                    hasFeedback
+                  >
+                    <Input placeholder="Email" value={formikProps.email} />
+                  </Form.Item>
+                  <Form.Item
+                    name="passWord"
+                    label="Password"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please enter password",
+                      },
+                      {
+                        min: 8,
+                        max: 16,
+                      },
+                    ]}
+                    hasFeedback
+                  >
+                    <Input.Password
+                      placeholder="Password"
+                      value={formikProps.passWord}
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    name="confirmPassWord"
+                    label="Confirm Password"
+                    dependencies={["passWord"]}
+                    rules={[
+                      { required: true },
+                      ({ getFieldValue }) => ({
+                        validator(_, value) {
+                          if (!value || getFieldValue("passWord") === value) {
+                            return Promise.resolve();
+                          }
+                          return Promise.reject(
+                            "Please make sure password match"
+                          );
+                        },
+                      }),
+                    ]}
+                    hasFeedback
+                  >
+                    <Input.Password placeholder="Password" />
+                  </Form.Item>
+                  <Form.Item
+                    name="name"
+                    label="Name"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please enter User name",
+                      },
+                      { whitespace: true },
+                    ]}
+                    hasFeedback
+                  >
+                    <Input placeholder="Name" value={formikProps.name} />
+                  </Form.Item>
+                  <Form.Item
+                    name="phoneNumber"
+                    label="Phone Number"
+                    rules={[
+                      {
+                        required: true,
+                      },
+                      { whitespace: true },
+                    ]}
+                  >
+                    <input
+                      placeholder="Phone Number"
+                      value={formikProps.values.phoneNumber}
+                    />
+                  </Form.Item>
+
+                  <Form.Item {...tailLayout}>
+                    <Button type="primary" htmlType="submit" className="mx-2">
+                      Submit
+                    </Button>
+                    <Button htmlType="button" onClick={onReset}>
+                      Reset
+                    </Button>
+                  </Form.Item>
+                </Form> */
+}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form, Button, Input, Modal, Table } from "antd";
+import { Button, Modal, Table, Space } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { actFetchDataListUser } from "./duck/action/action-listUser";
 import {
@@ -11,11 +11,28 @@ import Loading from "_components/loading";
 import { FetchDeleteUser } from "./duck/action/action-deleteUser";
 import { FetchEditUser } from "./duck/action/action-editUser";
 import { FetchAddUser } from "./duck/action/action-createUser";
+import { actFetchUserById } from "./duck/action/action-getUserById";
+
+import { useForm } from "react-hook-form";
 
 export default function UserManagement() {
   const dispatch = useDispatch();
-  const [form] = Form.useForm();
-  const props = useSelector((state) => state.listUserReducer);
+  // const [form] = Form.useForm();
+  const { register, setValue, handleSubmit, reset } = useForm({
+    defaultValues: {
+      id: "",
+      email: "@gmail.com",
+      passWord: "",
+      name: "BC39-QH",
+      phoneNumber: "09884546513",
+    },
+  });
+  const user = useSelector((state) => state.listUserReducer.data);
+  const userById = useSelector((state) => state.getUserByIdReducer.data);
+
+  useEffect(() => {
+    dispatch(actFetchDataListUser());
+  }, [dispatch]);
 
   //Get data for list User Page Managerment
   const columns = [
@@ -43,8 +60,8 @@ export default function UserManagement() {
     {
       title: "Action",
       key: "action",
-      render: (record) => (
-        <div>
+      render: (_text, record) => (
+        <Space>
           <button
             type="button"
             className="btn btn-warning btn-sm mx-2"
@@ -52,11 +69,16 @@ export default function UserManagement() {
             data-target="#User"
             style={{ size: 8 }}
             onClick={() => {
-              handleEditUser();
+              handleEditUser(record);
+              setValue("id", record.userId);
+              setValue("email", record.email);
+              setValue("name", record.name);
+              setValue("phoneNumber", record.phoneNumber);
             }}
           >
             <EditOutlined />
           </button>
+
           <button
             type="button"
             className="btn btn-danger btn-sm"
@@ -66,15 +88,10 @@ export default function UserManagement() {
           >
             <DeleteOutlined />
           </button>
-        </div>
+        </Space>
       ),
     },
   ];
-  const user = useSelector((state) => state.listUserReducer.data);
-
-  useEffect(() => {
-    dispatch(actFetchDataListUser());
-  }, [dispatch]);
 
   const handleDeleteUser = (userId) => {
     Modal.confirm({
@@ -82,7 +99,10 @@ export default function UserManagement() {
       onOk: () => {
         console.log(userId);
         // tạm thời cancel
-        // dispatch(FetchDeleteUser(userId));
+        // dispatch(FetchDeleteUser(userId), []);
+
+        // reset lại list
+        // dispatch(actFetchDataListUser());
       },
     });
   };
@@ -106,48 +126,46 @@ export default function UserManagement() {
   //Set Form
   const [titleForm, setTitleForm] = useState("Sign up");
   const [isEditForm, setisEditForm] = useState(false);
-  const [editingUser, setEditingUser] = useState(null);
 
   const handleEditUser = (record) => {
+    dispatch(actFetchUserById(record.userId));
     setTitleForm("Edit User");
     setisEditForm(true);
-    console.log("dữ liệu vào", record);
-    setEditingUser({ ...record });
   };
-  console.log(isEditForm);
-  console.log("sau khi spread", editingUser);
 
-  const onFinish = (user) => {
-    console.log(user);
+  const handleAPI = (user) => {
     if (isEditForm) {
-      console.log("editForm", isEditForm);
+      console.log("Là edit", isEditForm);
+      console.log(user);
+
       // FetchEdit
-      // dispatch(FetchEditUser(user));
+      // dispatch(FetchEditUser(user), []);
     } else {
       // Fetch Add
-      console.log("adduserlog", isEditForm);
+      console.log("Không phải edit", isEditForm);
+      console.log(user);
+
       //tạm thời cancel
-      // dispatch(FetchAddUser(user));
+      // dispatch(FetchAddUser(user), []);
     }
   };
 
-  const onReset = () => {
-    form.resetFields();
-  };
-
-  if (props.loading) return <Loading />;
+  if (!user) return <Loading />;
 
   return (
     <div className="container">
       <div className="renderListUser">
-        <h1 className="title text-center py-2">User Management</h1>
+        <h1 className="title text-center py-2 text-uppercase">
+          User Management
+        </h1>
         <button
-          className="btn btn-primary btn-sm my-2"
+          className="btn btn-primary btn-sm my-2 text-uppercase"
           data-toggle="modal"
           data-target="#User"
           onClick={() => {
             setTitleForm("Sign up");
             setisEditForm(false);
+            reset();
           }}
         >
           <UserAddOutlined /> Add New User
@@ -159,7 +177,6 @@ export default function UserManagement() {
           key={columns.id}
         />
       </div>
-      {/* <FormUser user={user} /> */}
 
       <div className="action-button">
         <div
@@ -184,117 +201,95 @@ export default function UserManagement() {
                     <span aria-hidden="true">×</span>
                   </Button>
                 </div>
-                <Form
-                  {...layout}
-                  form={form}
-                  name="control-hooks"
-                  onFinish={onFinish}
-                  style={{
-                    maxWidth: 600,
-                  }}
-                  className={"mt-3"}
-                >
-                  <Form.Item name="id" label="ID" hidden={!isEditForm}>
-                    <Input
-                      disabled
-                      value={() => {
-                        if (isEditForm) {
-                          return editingUser?.userId;
-                        }
-                      }}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name="email"
-                    label="Email"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter email",
-                      },
-                      {
-                        type: "email",
-                        message: "Please enter a valid email",
-                      },
-                    ]}
-                    hasFeedback
-                  >
-                    <Input placeholder="Email" value={editingUser?.email} />
-                  </Form.Item>
-                  <Form.Item
-                    name="passWord"
-                    label="Password"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter password",
-                      },
-                      {
-                        min: 8,
-                        max: 16,
-                      },
-                    ]}
-                    hasFeedback
-                  >
-                    <Input.Password placeholder="Password" />
-                  </Form.Item>
-                  <Form.Item
-                    name="confirm-passWord"
-                    label="Confirm Password"
-                    dependencies={["passWord"]}
-                    rules={[
-                      { required: true },
-                      ({ getFieldValue }) => ({
-                        validator(_, value) {
-                          if (!value || getFieldValue("passWord") === value) {
-                            return Promise.resolve();
-                          }
-                          return Promise.reject(
-                            "Please make sure password match"
-                          );
-                        },
-                      }),
-                    ]}
-                    hasFeedback
-                  >
-                    <Input.Password placeholder="Password" />
-                  </Form.Item>
-                  <Form.Item
-                    name="name"
-                    label="Name"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter User name",
-                      },
-                      { whitespace: true },
-                    ]}
-                    hasFeedback
-                  >
-                    <Input placeholder="Name" />
-                  </Form.Item>
-                  <Form.Item
-                    name="phoneNumber"
-                    label="Phone Number"
-                    rules={[
-                      {
-                        required: true,
-                      },
-                      { whitespace: true },
-                    ]}
-                  >
-                    <Input placeholder="Phone Number" />
-                  </Form.Item>
 
-                  <Form.Item {...tailLayout}>
-                    <Button type="primary" htmlType="submit" className="mx-2">
-                      Submit
-                    </Button>
-                    <Button htmlType="button" onClick={onReset}>
-                      Reset
-                    </Button>
-                  </Form.Item>
-                </Form>
+                <form
+                  className="register-form text-center my-3"
+                  onSubmit={handleSubmit((data) => handleAPI(data))}
+                >
+                  <div className="form-group row " hidden={!isEditForm}>
+                    <label className="col-5 text-right">User ID</label>
+
+                    <input className="col-7" {...register("id")} disabled />
+                  </div>
+                  <div className="form-group row">
+                    <label className="col-5 text-right">Email</label>
+                    <input
+                      className="col-7"
+                      {...register(
+                        "email",
+                        {
+                          required: true,
+                        },
+                        { pattern: "[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$" },
+                        {
+                          onChange: (e) => console.log(e.target),
+                          onBlur: (e) => console.log(e),
+                        }
+                      )}
+                      placeholder="Email"
+                    />
+                  </div>
+                  <div className="form-group row" hidden={isEditForm}>
+                    <label className="col-5 text-right">Password</label>
+
+                    <input
+                      className="col-7"
+                      {...register(
+                        "passWord",
+                        {
+                          // pattern: "^(?=.*[A-Za-z])(?=.*d)[A-Za-zd]{8,}$",
+                        },
+                        {
+                          onChange: (e) => console.log(e),
+                        }
+                      )}
+                      placeholder="Password"
+                    />
+                  </div>
+                  <div className="form-group row" hidden={isEditForm}>
+                    <label className="col-5 text-right">Comfirm Password</label>
+                    <input className="col-7" placeholder="Password" />
+                  </div>
+                  <div className="form-group row">
+                    <label className="col-5 text-right">Name</label>
+
+                    <input
+                      className="col-7"
+                      {...register(
+                        "name",
+                        {
+                          required: true,
+                        },
+                        {
+                          onChange: (e) => console.log(e),
+                        }
+                      )}
+                      placeholder="Name"
+                    />
+                  </div>
+                  <div className="form-group row">
+                    <label className="col-5 text-right">Phone Number</label>
+                    <input
+                      className="col-7"
+                      {...register(
+                        "phoneNumber",
+                        {
+                          required: true,
+                        },
+                        {
+                          onChange: (e) => console.log(e),
+                        }
+                      )}
+                      placeholder="Phone Number"
+                    />
+                  </div>
+
+                  <input
+                    className="btn btn-primary"
+                    type="submit"
+                    value="Submit"
+                  />
+                </form>
               </div>
             </div>
           </div>
@@ -303,3 +298,5 @@ export default function UserManagement() {
     </div>
   );
 }
+
+// accessToken:"eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJwaHF1b2Nob2lAZ21haWwuY29tIiwibmJmIjoxNjgwMzUzNDg1LCJleHAiOjE2ODAzNTcwODV9.GvQvXpqpD14iwYPjZFo864Zh7vqgq1NTTTAyDIZ3Id0";
