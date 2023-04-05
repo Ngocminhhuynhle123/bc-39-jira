@@ -107,4 +107,36 @@ a {
 }
 .btnLogOut:hover {
   color: rgba(255, 0, 0, 0.5490196078);
+}
+
+.projectMembers {
+  display: flex;
+}
+
+.membersAvatar {
+  border-radius: 50%;
+  width: 2rem;
+  border: none;
+  height: 2rem;
+  outline: 1px white solid;
+  margin-right: 0.5rem;
+}
+
+.btnMember {
+  background: #4CAF50;
+  color: white;
+  outline: none;
+}
+.btnMember:focus {
+  opacity: 0.8;
+}
+.btnMember:hover {
+  opacity: 0.8;
+}
+
+.gutter-box {
+  padding: 8px 0;
+  background: #043c56;
+  height: 27rem;
+  color: aliceblue;
 }/*# sourceMappingURL=style.css.map */

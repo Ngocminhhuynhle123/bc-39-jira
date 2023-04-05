@@ -12,7 +12,6 @@ export const fetchData_ListProjectreducer = () => {
       .get("/api/Project/getAllProject")
       .then((result) => {
         //success
-        console.log(result.data.content);
         dispatch(actLIST_PROJECT_SUCCESS(result.data.content));
       })
       .catch((error) => {

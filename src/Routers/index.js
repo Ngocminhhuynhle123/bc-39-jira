@@ -17,7 +17,7 @@ const routers = [{
             element: lazy(() => import('./../pages/Jira-Admin/myProfile')),
         },
         {
-            path: "/projectDetail",
+            path: "/projectDetail/:id",
             element: lazy(() => import('./../pages/Jira-Admin/projectDetail')),
         },
         {

@@ -87,7 +87,7 @@ function JiraAdmin() {
                 <Layout className="site-layout">
                     <Header
                         style={{
-                            padding: 0,
+                            padding: 10,
                             background: colorBgContainer,
 
                         }}
@@ -100,7 +100,7 @@ function JiraAdmin() {
                         })}
                         {handleUser()}
                     </Header>
-                    <Content style={{ minHeight: "100vh" }}>
+                    <Content style={{ minHeight: "100vh",padding: 10, }}>
                         <Outlet />
                     </Content>
                 </Layout>
