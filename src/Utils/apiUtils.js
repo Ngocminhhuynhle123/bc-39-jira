@@ -14,7 +14,3 @@ api.interceptors.request.use((config) => {
   };
   return config;
 });
-
-/**
- Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJwaHF1b2Nob2lAZ21haWwuY29tIiwibmJmIjoxNjgwNjM2NTE1LCJleHAiOjE2ODA2NDAxMTV9.vtg7tjXUxu5YJP3SpEvPfrbfoEZIdSPiTE-RywoQzok
- */
