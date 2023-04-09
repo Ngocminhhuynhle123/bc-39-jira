@@ -34,7 +34,7 @@ function AuthPages() {
               placeholder="email"
               {...register("email", {
                 required: true,
-                pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/i,
+                pattern: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/i,
               })}
             />
             {errors.email && errors.email.type === "required" && (

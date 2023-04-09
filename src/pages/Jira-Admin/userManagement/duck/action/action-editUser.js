@@ -17,10 +17,11 @@ export const FetchEditUser = (user) => {
       .put("api/Users/editUser", user)
       .then((res) => {
         dispatch(actEditUserByIdSuccess(res.data.content));
+        window.alert(res.data.content);
       })
       .catch((error) => {
-        console.log(error);
         dispatch(actEditUserByIdFail(error));
+        window.alert(error);
       });
   };
 };

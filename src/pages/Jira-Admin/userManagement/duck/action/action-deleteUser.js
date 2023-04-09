@@ -9,9 +9,11 @@ export const FetchDeleteUser = (userId) => {
       .delete(`api/Users/deleteUser?id=${userId}`)
       .then((res) => {
         dispatch(actDeleteUserSuccess(res.data.content));
+        window.alert(res.data.content);
       })
       .catch((error) => {
         dispatch(actDeleteUserFail(error));
+        window.alert(error);
       });
   };
 };

@@ -1,163 +1,241 @@
-import React from "react";
-import { UserOutlined } from "@ant-design/icons";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Avatar, Space } from "antd";
-import { Form, Input } from "antd";
+import { UserOutlined } from "@ant-design/icons";
+import Loading from "_components/loading";
+import { actFetchUserById } from "../userManagement/duck/action/action-getUserById";
+import { useForm } from "react-hook-form";
+import { FetchEditUser } from "../userManagement/duck/action/action-editUser";
 
 function MyProfile() {
-  const onFinish = (values) => {
-    console.log("Success:", values);
+  const dispatch = useDispatch();
+  const [isEditForm, setisEditForm] = useState(false);
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      id: "",
+      email: "@gmail.com",
+      passWord: "",
+      name: "",
+      phoneNumber: "",
+    },
+  });
+
+  const dataJSON = JSON.parse(localStorage.getItem("@user"));
+
+  const getUserById = useSelector((state) => state.getUserByIdReducer.data);
+  useEffect(() => {
+    dispatch(actFetchUserById(dataJSON.id));
+  }, [dispatch]);
+
+  if (!getUserById) return <Loading />;
+
+  const handleEdit = () => {
+    setisEditForm(true);
+    setValue("id", getUserById.userId);
+    setValue("email", getUserById.email);
+    setValue("name", getUserById.name);
+    setValue("phoneNumber", getUserById.phoneNumber);
   };
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+
+  const handleAPI = (user) => {
+    if (isEditForm) {
+      dispatch(FetchEditUser(user), [dispatch]);
+      setLocalStorage(user);
+    }
+  };
+
+  const handleCancel = () => {
+    setisEditForm(false);
+  };
+
+  const setLocalStorage = (user) => {
+    var userJSON = { ...user };
+    var dataString = JSON.stringify(userJSON);
+    localStorage.setItem("@user", dataString);
   };
 
   return (
-    <div>
-      <div className="container">
-        <h2 className="text-uppercase">My Profile</h2>
+    <div className="container ">
+      <h2 className="title text-center py-2 text-uppercase">My Profile</h2>
+      <div className="my-3 text-center">
+        <Space size={16} wrap>
+          <Avatar
+            size={64}
+            style={{
+              backgroundColor: "#87d068",
+            }}
+            icon={<UserOutlined />}
+          />
+        </Space>
 
-        <div className="text-center">
-          <div className="mw-50 p-3 mt-5">
-            <Space size={16} wrap>
-              <Avatar
-                size={64}
-                style={{
-                  backgroundColor: "#87d068",
-                }}
-                icon={<UserOutlined />}
-              />
-            </Space>
-
-            <h3>Tên User</h3>
-            <a
-              type="button"
-              className="btn btn-secondary mx-2"
-              data-toggle="modal"
-              data-target="#EditMyProfile"
-              href="/"
-            >
-              Edit My Profile
-            </a>
-            <div className="container">
-              <div className="my-3">My ID: </div>
-              <div className="my-3">Email:</div>
-              <div className="my-3">Password: </div>
-              <div className="my-3">Phone Number: </div>
-            </div>
-          </div>
-        </div>
+        <h4 className="my-3">{getUserById.name}</h4>
+        <button
+          type="button"
+          className="btn btn-secondary mx-2 btn-sm"
+          href="/"
+          onClick={handleEdit}
+          hidden={isEditForm}
+        >
+          Edit My Profile
+        </button>
       </div>
 
-      <div>
-        <div
-          className="modal fade"
-          id="EditMyProfile"
-          tabIndex={-1}
-          role="dialog"
-          aria-labelledby="modelTitleId"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Edit Profile</h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">×</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <Form
-                  name="basic"
-                  labelCol={{
-                    span: 8,
-                  }}
-                  wrapperCol={{
-                    span: 16,
-                  }}
-                  style={{
-                    maxWidth: 600,
-                  }}
-                  initialValues={{
-                    remember: true,
-                  }}
-                  onFinish={onFinish}
-                  onFinishFailed={onFinishFailed}
-                  autoComplete="off"
-                >
-                  <Form.Item label="Your ID" name="ID">
-                    <Input disabled />
-                  </Form.Item>
-                  <Form.Item
-                    label="Name"
-                    name="name"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your Name!",
-                      },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-                  <Form.Item
-                    label="Email"
-                    name="email"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your Email!",
-                      },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-
-                  <Form.Item
-                    label="Password"
-                    name="password"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your password!",
-                      },
-                    ]}
-                  >
-                    <Input.Password />
-                  </Form.Item>
-
-                  <Form.Item
-                    label="Phone Number"
-                    name="phoneNumber"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your Email!",
-                      },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-                </Form>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button type="submit" className="btn btn-primary">
-                  Update
-                </button>
+      <div className="mt-3">
+        <div className="form w-50 m-auto">
+          <form
+            className="register-form text-center my-3"
+            onSubmit={handleSubmit((data) => handleAPI(data))}
+          >
+            <div className="form-group">
+              <div className="row">
+                <label className="col-lg-4 col-md-6 col-12 text-right">
+                  User ID
+                </label>
+                <div className="col-lg-8 col-md-6 col-12 text-left">
+                  <input
+                    className="form-control"
+                    {...register("id")}
+                    disabled
+                    hidden={!isEditForm}
+                  />
+                  <span className="text-left" hidden={isEditForm}>
+                    {getUserById.userId}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
+
+            <div className="form-group text-center">
+              <div className="row">
+                <label className="col-lg-4 col-md-6 col-12 text-right">
+                  Name
+                </label>
+                <div className="col-lg-8 col-md-6 col-12  text-left">
+                  <input
+                    className="form-control"
+                    {...register("name", {
+                      required: true,
+                    })}
+                    placeholder="Name"
+                    hidden={!isEditForm}
+                  />
+                  <span className="text-left" hidden={isEditForm}>
+                    {getUserById.name}
+                  </span>
+                  {errors.name && errors.name.type === "required" && (
+                    <span className="text-danger">Vui lòng nhập tên User</span>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="form-group text-center">
+              <div className="row">
+                <label className="col-lg-4 col-md-6 col-xs-12 text-right">
+                  Email
+                </label>
+                <div className="col-lg-8 col-md-6 col-xs-12  text-left">
+                  <input
+                    className="form-control"
+                    placeholder="Email"
+                    {...register("email", {
+                      required: true,
+                      pattern: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/i,
+                    })}
+                    hidden={!isEditForm}
+                  />
+                  <span className="text-left" hidden={isEditForm}>
+                    {getUserById.email}
+                  </span>
+                  {errors.email && errors.email.type === "required" && (
+                    <span className="text-danger">Vui lòng nhập Email</span>
+                  )}
+                  {errors.email && errors.email.type === "pattern" && (
+                    <span className="text-danger">
+                      Vui lòng nhập đúng form Email (Exam: abc@gmail.com)
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="form-group text-center">
+              <div className="row">
+                <label className="col-lg-4 col-md-6 col-12 text-right">
+                  Password
+                </label>
+                <div className="col-lg-8 col-md-6 col-12  text-left">
+                  <input
+                    className="form-control"
+                    {...register("passWord", {
+                      required: isEditForm,
+                      // max: 16,
+                      // min: 8,
+                      // pattern:
+                      //   /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{0,}$/i,
+                    })}
+                    placeholder="Password"
+                    hidden={!isEditForm}
+                  />
+                  <span className="text-left" hidden={isEditForm}>
+                    {getUserById.passWord}
+                  </span>
+                  {errors.passWord && errors.passWord.type === "required" && (
+                    <span className="text-danger">Vui lòng nhập Password</span>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="form-group text-center">
+              <div className="row">
+                <label className="col-lg-4 col-md-6 col-12 text-right">
+                  Phone Number
+                </label>
+                <div className="col-lg-8 col-md-6 col-12  text-left">
+                  <input
+                    className="form-control"
+                    {...register("phoneNumber", {
+                      required: true,
+                    })}
+                    placeholder="Phone Number"
+                    hidden={!isEditForm}
+                  />
+                  <span className="text-left" hidden={isEditForm}>
+                    {getUserById.phoneNumber}
+                  </span>
+                  {errors.phoneNumber &&
+                    errors.phoneNumber.type === "required" && (
+                      <span className="text-danger">
+                        Vui lòng nhập tên Số điện thoại
+                      </span>
+                    )}
+                </div>
+              </div>
+            </div>
+            <div className="button-action m-auto">
+              <button
+                className="btn btn-secondary btn-sm mr-3"
+                onClick={handleCancel}
+                hidden={!isEditForm}
+              >
+                Cancel
+              </button>
+              <button
+                className="btn btn-primary btn-sm"
+                type="submit"
+                value="Submit"
+                hidden={!isEditForm}
+              >
+                Submit
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
