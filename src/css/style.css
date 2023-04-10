@@ -136,7 +136,28 @@ a {
 
 .gutter-box {
   padding: 8px 0;
-  background: #043c56;
+  background: #efefef;
   height: 27rem;
-  color: aliceblue;
+  color: #7b7b7b;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+.gutter-box .gutter-box-header {
+  padding: 1rem;
+  text-transform: uppercase;
+}
+.gutter-box .img_cardDetail {
+  border-radius: 50%;
+  width: 2rem;
+}
+.gutter-box .card_content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 2rem;
+}
+.gutter-box .iconPriority-LM {
+  color: red;
+}
+.gutter-box .iconPriority-H {
+  color: rgb(50, 72, 240);
 }/*# sourceMappingURL=style.css.map */
