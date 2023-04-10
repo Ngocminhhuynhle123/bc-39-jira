@@ -78,9 +78,9 @@ function JiraAdmin() {
     <section id="layout">
       <Layout>
         <Sider trigger={null} collapsible collapsed={collapsed}>
-          <div className="logo text-center mt-3" style={{ color: "white" }}>
+          <h2 className="logo text-center mt-3" style={{ color: "white" }}>
             JiraClone
-          </div>
+          </h2>
           <Menu
             theme="dark"
             mode="inline"

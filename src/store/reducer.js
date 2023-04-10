@@ -6,6 +6,7 @@ import { listUserReducer } from "../pages/Jira-Admin/userManagement/duck/reducer
 import { AddUserReducer } from "pages/Jira-Admin/userManagement/duck/reducer/reducer-createUser";
 import { deleteUserReducer } from "pages/Jira-Admin/userManagement/duck/reducer/reducer-deleteUser";
 import { editUserReducer } from "pages/Jira-Admin/userManagement/duck/reducer/reducer-editUser";
+import { getUserByIdReducer } from "pages/Jira-Admin/userManagement/duck/reducer/reducer-getUserById";
 
 export const rootReducer = combineReducers({
   ListProjectreducer,
@@ -14,4 +15,5 @@ export const rootReducer = combineReducers({
   deleteUserReducer,
   AddUserReducer,
   editUserReducer,
+  getUserByIdReducer,
 });
