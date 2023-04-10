@@ -116,10 +116,10 @@ export default function UserManagement() {
   const handleAPI = (user) => {
     if (isEditForm) {
       // FetchEdit
-      dispatch(FetchEditUser(user), [dispatch]);
+      dispatch(FetchEditUser(user), [dispatch(actFetchDataListUser())]);
     } else {
       // Fetch Add
-      dispatch(FetchAddUser(user), [dispatch]);
+      dispatch(FetchAddUser(user), [dispatch(actFetchDataListUser())]);
     }
   };
 
@@ -199,6 +199,29 @@ export default function UserManagement() {
 
                     <div className="form-group text-center">
                       <div className="row">
+                        <label className="col-lg-4 col-md-6 col-12">
+                          User Name
+                        </label>
+
+                        <div className="col-lg-8 col-md-6 col-12 ">
+                          <input
+                            className="form-control"
+                            {...register("name", {
+                              required: true,
+                            })}
+                            placeholder="Name"
+                          />
+                          {errors.name && errors.name.type === "required" && (
+                            <span className="text-danger">
+                              Vui lòng nhập tên User
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="form-group text-center">
+                      <div className="row">
                         <label className="col-lg-4 col-md-6 col-xs-12">
                           Email
                         </label>
@@ -237,10 +260,6 @@ export default function UserManagement() {
                             className="form-control"
                             {...register("passWord", {
                               required: !isEditForm,
-                              // max: 16,
-                              // min: 8,
-                              // pattern:
-                              //   /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{0,}$/i,
                             })}
                             placeholder="Password"
                           />
@@ -250,27 +269,6 @@ export default function UserManagement() {
                                 Vui lòng nhập Password User
                               </span>
                             )}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="form-group text-center">
-                      <div className="row">
-                        <label className="col-lg-4 col-md-6 col-12">Name</label>
-
-                        <div className="col-lg-8 col-md-6 col-12 ">
-                          <input
-                            className="form-control"
-                            {...register("name", {
-                              required: true,
-                            })}
-                            placeholder="Name"
-                          />
-                          {errors.name && errors.name.type === "required" && (
-                            <span className="text-danger">
-                              Vui lòng nhập tên User
-                            </span>
-                          )}
                         </div>
                       </div>
                     </div>

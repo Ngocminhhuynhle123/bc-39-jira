@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import { Avatar, Space } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import Loading from "_components/loading";
@@ -10,6 +11,7 @@ import { FetchEditUser } from "../userManagement/duck/action/action-editUser";
 function MyProfile() {
   const dispatch = useDispatch();
   const [isEditForm, setisEditForm] = useState(false);
+
   const {
     register,
     setValue,
@@ -25,16 +27,17 @@ function MyProfile() {
     },
   });
 
-  const dataJSON = JSON.parse(localStorage.getItem("@user"));
-
+  const datJSON = JSON.parse(localStorage.getItem("@user")).id;
   const getUserById = useSelector((state) => state.getUserByIdReducer.data);
   useEffect(() => {
-    dispatch(actFetchUserById(dataJSON.id));
+    dispatch(actFetchUserById(datJSON));
   }, [dispatch]);
 
   if (!getUserById) return <Loading />;
 
-  const handleEdit = () => {
+  const handleEdit = (e) => {
+    e.preventDefault();
+
     setisEditForm(true);
     setValue("id", getUserById.userId);
     setValue("email", getUserById.email);
@@ -45,7 +48,6 @@ function MyProfile() {
   const handleAPI = (user) => {
     if (isEditForm) {
       dispatch(FetchEditUser(user), [dispatch]);
-      setLocalStorage(user);
     }
   };
 
@@ -53,10 +55,9 @@ function MyProfile() {
     setisEditForm(false);
   };
 
-  const setLocalStorage = (user) => {
-    var userJSON = { ...user };
-    var dataString = JSON.stringify(userJSON);
-    localStorage.setItem("@user", dataString);
+  const onSubmit = (data) => {
+    handleAPI(data);
+    setisEditForm(false);
   };
 
   return (
@@ -89,7 +90,7 @@ function MyProfile() {
         <div className="form w-50 m-auto">
           <form
             className="register-form text-center my-3"
-            onSubmit={handleSubmit((data) => handleAPI(data))}
+            onSubmit={handleSubmit(onSubmit)}
           >
             <div className="form-group">
               <div className="row">
@@ -174,10 +175,6 @@ function MyProfile() {
                     className="form-control"
                     {...register("passWord", {
                       required: isEditForm,
-                      // max: 16,
-                      // min: 8,
-                      // pattern:
-                      //   /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{0,}$/i,
                     })}
                     placeholder="Password"
                     hidden={!isEditForm}

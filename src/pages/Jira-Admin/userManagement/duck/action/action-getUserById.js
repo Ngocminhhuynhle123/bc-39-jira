@@ -9,7 +9,6 @@ export const actFetchUserById = (userId) => {
       .get(`api/Users/getUser?keyword=${userId}`)
       .then((res) => {
         dispatch(actGetUserByIdSuccess(res.data.content[0]));
-        // console.log(res.data.content[0]);
       })
       .catch((error) => {
         dispatch(actGetUserByIdFail(error));
