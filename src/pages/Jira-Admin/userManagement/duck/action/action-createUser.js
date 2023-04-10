@@ -8,9 +8,11 @@ export const FetchAddUser = (user) => {
       .post(`api/Users/signup`, user)
       .then((res) => {
         dispatch(actAddUserSuccess(res.data.content));
+        window.alert(res.data.content);
       })
       .catch((error) => {
         dispatch(actAddUserFail(error));
+        window.alert(error);
       });
   };
 };
