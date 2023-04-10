@@ -1,4 +1,4 @@
-import { logInRequert, logInSuccess, logInFaile, logIn, logOut } from "./types";
+import { logInRequert, logInSuccess, logInFaile } from "./types";
 import { api } from 'utils/apiUtils';
 const actlogInRequert = () => ({ type: logInRequert })
 const actlogInSuccess = (data) => {
