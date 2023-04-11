@@ -1,7 +1,7 @@
 import {
   DELETE_PROJECT_REQUEST, DELETE_PROJECT_SUCCESS, DELETE_PROJECT_FAIL
 } from "./types";
-import { api } from 'utils/apiUtils';
+import { api } from "Utils/apiUtils";
 
 export const fetchDELETEProjectreducer = (id) => {
   return (dispatch) => {
@@ -12,7 +12,6 @@ export const fetchDELETEProjectreducer = (id) => {
       .delete(`/api/Project/deleteProject?projectId=${id}`)
       .then((result) => {
         //success
-        console.log(result.data);
         dispatch(actDelete_PROJECT_SUCCESS(result.data));
       })
       .catch((error) => {

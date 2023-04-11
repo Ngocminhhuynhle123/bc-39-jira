@@ -1,7 +1,7 @@
 import {
   LIST_PROJECT_REQUEST, LIST_PROJECT_SUCCESS, LIST_PROJECT_FAIL
 } from "./types";
-import { api } from 'utils/apiUtils';
+import { api } from "Utils/apiUtils";
 
 export const fetchData_ListProjectreducer = () => {
   return (dispatch) => {

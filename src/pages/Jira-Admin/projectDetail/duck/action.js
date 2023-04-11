@@ -1,7 +1,7 @@
 import {
   PROJECT_DETAIL_REQUEST, PROJECT_DETAIL_SUCCESS, PROJECT_DETAIL_FAIL
 } from "./types";
-import { api } from 'utils/apiUtils';
+import { api } from "Utils/apiUtils";
 
 export const FetchProjectDetailreducer = (id) => {
   return (dispatch) => {

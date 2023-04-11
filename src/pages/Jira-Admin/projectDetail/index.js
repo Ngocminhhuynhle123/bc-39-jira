@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import Loading from '_components/loading'
 import { FetchProjectDetailreducer } from './duck/action'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router'
