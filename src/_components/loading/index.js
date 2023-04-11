@@ -1,7 +1,14 @@
-import React from "react";
-import "./style.css";
-function Loading() {
-  return <div className="loading">Loading...........</div>;
-}
-
+import { Spin, Space } from 'antd';
+const Loading = () => {
+  return (
+    <Space
+      direction="vertical"
+      style={{
+        width: '100%',
+      }}>
+      <Spin>
+      </Spin>
+    </Space>
+  );
+};
 export default Loading;

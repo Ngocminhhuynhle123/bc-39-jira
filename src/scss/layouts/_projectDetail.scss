@@ -1,0 +1,33 @@
+.gutter-box {
+  padding: 8px 0;
+  background: #efefef;
+  height: 27rem;
+  color: #7b7b7b;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+
+  .gutter-box-header {
+    padding: 1rem;
+    text-transform: uppercase;
+  }
+
+  .img_cardDetail {
+    border-radius: 50%;
+    width: 2rem;
+  }
+
+  .card_content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 2rem;
+  }
+  .iconPriority-LM {
+      color: red;
+    
+
+  }
+  .iconPriority-H {
+      color: rgb(50, 72, 240);
+    
+  }
+}

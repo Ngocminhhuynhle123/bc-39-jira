@@ -107,4 +107,57 @@ a {
 }
 .btnLogOut:hover {
   color: rgba(255, 0, 0, 0.5490196078);
+}
+
+.projectMembers {
+  display: flex;
+}
+
+.membersAvatar {
+  border-radius: 50%;
+  width: 2rem;
+  border: none;
+  height: 2rem;
+  outline: 1px white solid;
+  margin-right: 0.5rem;
+}
+
+.btnMember {
+  background: #4CAF50;
+  color: white;
+  outline: none;
+}
+.btnMember:focus {
+  opacity: 0.8;
+}
+.btnMember:hover {
+  opacity: 0.8;
+}
+
+.gutter-box {
+  padding: 8px 0;
+  background: #efefef;
+  height: 27rem;
+  color: #7b7b7b;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+.gutter-box .gutter-box-header {
+  padding: 1rem;
+  text-transform: uppercase;
+}
+.gutter-box .img_cardDetail {
+  border-radius: 50%;
+  width: 2rem;
+}
+.gutter-box .card_content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 2rem;
+}
+.gutter-box .iconPriority-LM {
+  color: red;
+}
+.gutter-box .iconPriority-H {
+  color: rgb(50, 72, 240);
 }/*# sourceMappingURL=style.css.map */

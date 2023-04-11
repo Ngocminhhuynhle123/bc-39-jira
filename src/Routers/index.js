@@ -5,29 +5,30 @@ const routers = [
     path: "/",
     element: lazy(() => import("./../pages/Jira-Admin/")),
     nested: [
-      {
-        path: "/",
-        element: lazy(() => import("./../pages/Jira-Admin/projectManagement")),
-      },
-      {
-        path: "/createProject",
-        element: lazy(() => import("./../pages/Jira-Admin/createProject")),
-      },
-      {
-        path: "/myProfile",
-        element: lazy(() => import("./../pages/Jira-Admin/myProfile")),
-      },
-      {
-        path: "/projectDetail",
-        element: lazy(() => import("./../pages/Jira-Admin/projectDetail")),
-      },
-      {
-        path: "/userManagement",
-        element: lazy(() => import("./../pages/Jira-Admin/userManagement")),
-      },
-    ],
-  },
-  {
+        {
+            path: "/",
+            element: lazy(() => import('./../pages/Jira-Admin/projectManagement')),
+        },
+        {
+            path: "/createProject",
+            element: lazy(() => import('./../pages/Jira-Admin/createProject')),
+        },
+        {
+            path: "/myProfile",
+            element: lazy(() => import('./../pages/Jira-Admin/myProfile')),
+        },
+        {
+            path: "/projectDetail/:id",
+            element: lazy(() => import('./../pages/Jira-Admin/projectDetail')),
+        },
+        {
+            path: "/userManagement",
+            element: lazy(() => import('./../pages/Jira-Admin/userManagement')),
+        },
+
+    ]
+},
+{
     path: "/logInjiraa",
     element: lazy(() => import("./../pages/Jira-Admin/authPages")),
   },

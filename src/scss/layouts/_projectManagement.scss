@@ -1,0 +1,27 @@
+.projectMembers {
+    display: flex;
+
+}
+
+.membersAvatar {
+    border-radius: 50%;
+    width: 2rem;
+    border: none;
+    height: 2rem;
+    outline: 1px white solid;
+    margin-right: .5rem;
+}
+
+.btnMember {
+    background: $color-green-1;
+    color: white;
+    outline: none;
+
+    &:focus {
+        opacity: .8;
+    }
+
+    &:hover {
+        opacity: .8;
+    }
+}
